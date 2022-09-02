@@ -7,6 +7,7 @@
     "lib": ["ES2020"],
     "module": "ESNext",
     "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "target": "ES2021"
