@@ -3,6 +3,7 @@ import { compile } from '@lazy/infrastructureless-compiler'
 import glob from 'fast-glob'
 import { promises as fs } from 'fs'
 import { getConfiguration, type Configuration } from './configuration.js'
+import { getRootDirectory } from './get-root-directory.js'
 import { getPlugins } from './plugins.js'
 
 export const build = async (overrides?: Partial<Configuration>) => {
@@ -11,6 +12,7 @@ export const build = async (overrides?: Partial<Configuration>) => {
   const plugins = await getPlugins(configuration.plugins)
 
   const handlers = await glob(configuration.include, {
+    cwd: getRootDirectory(),
     absolute: true,
     ignore: configuration.exclude,
   })

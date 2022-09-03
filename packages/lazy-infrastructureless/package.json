@@ -17,13 +17,13 @@
   "main": "./lib/index.js",
   "exports": "./lib/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "pretest": "npm run build",
     "test": "node --loader=esmock --test",
     "prestart": "npm run build",
     "start": "concurrently --kill-others-on-fail npm:start:typescript npm:start:nodemon",
-    "start:nodemon": "nodemon --watch lib ./lib/index.js",
-    "start:typescript": "tsc --watch --preserveWatchOutput"
+    "start:nodemon": "nodemon --watch .. ./lib/index.js",
+    "start:typescript": "tsc --build --watch --preserveWatchOutput"
   },
   "sideEffects": false,
   "type": "module",

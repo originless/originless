@@ -4,9 +4,10 @@ import { type MergeWithCustomizer } from 'lodash'
 import _mergeWith from 'lodash.mergewith'
 import _uniq from 'lodash.uniq'
 import { array, InferType, object, string } from 'yup'
+import { getRootDirectory } from './get-root-directory.js'
 
 const configurationSchema = object({
-  include: array(string().required()).default(['src/**/*.handler.ts']),
+  include: array(string().required()).default(['**/*.handler.ts']),
   exclude: array(string().required()).default(['node_modules/**']),
   plugins: array(string().required()).required(),
 })
@@ -44,6 +45,7 @@ export const getConfiguration = async (
 
   if (!configuration.plugins) {
     const filepaths = await glob(['**/infrastructureless-plugin-*/package.json'], {
+      cwd: getRootDirectory(),
       absolute: true,
     })
 

@@ -1,40 +1,34 @@
 {
-  "name": "@lazy/infrastructureless-cli",
+  "name": "@lazy/infrastructureless-plugin-discord-interactions",
   "version": "1.0.0-alpha.0",
   "description": "Infrastructureless",
   "license": "MIT",
   "private": true,
   "repository": {
-    "directory": "packages/lazy-infrastructureless-cli",
+    "directory": "packages/lazy-infrastructureless-plugin-discord-interactions",
     "type": "git",
     "url": "https://github.com/aidant/lazy-infrastructureless.git"
   },
   "bugs": {
     "url": "https://github.com/aidant/lazy-infrastructureless/issues"
   },
-  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-cli#readme",
+  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-plugin-discord-interactions#readme",
   "keywords": [],
-  "main": "./lib/cli.js",
-  "exports": "./lib/cli.js",
-  "bin": {
-    "infrastructureless": "./lib/cli.js"
-  },
+  "main": "./lib/plugin-discord-interactions.js",
+  "exports": "./lib/plugin-discord-interactions.js",
   "scripts": {
     "build": "tsc --build",
     "pretest": "npm run build",
-    "test": "node --loader=esmock --test",
+    "test": "node --test",
     "prestart": "npm run build",
     "start": "concurrently --kill-others-on-fail npm:start:typescript npm:start:nodemon",
-    "start:nodemon": "nodemon --watch .. ./lib/cli.js",
+    "start:nodemon": "nodemon --watch .. ./lib/plugin-discord-interactions.js",
     "start:typescript": "tsc --build --watch --preserveWatchOutput"
   },
   "sideEffects": false,
   "type": "module",
-  "types": "./lib/cli.d.ts",
-  "dependencies": {
-    "@lazy/infrastructureless": "*",
-    "commander": "^9.4.0"
-  },
+  "types": "./lib/plugin-discord-interactions.d.ts",
+  "dependencies": {},
   "devDependencies": {
     "concurrently": "^7.0.0",
     "nodemon": "^2.0.15",

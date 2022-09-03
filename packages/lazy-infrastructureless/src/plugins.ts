@@ -1,8 +1,13 @@
 import { Plugin } from '@lazy/infrastructureless-compiler'
-import { object, string } from 'yup'
+import { array, object, string } from 'yup'
 
 const pluginSchema = object({
   name: string().required(),
+  version: string().required(),
+  identifier: object({
+    specifiers: array(string().required()).required(),
+    source: string().required(),
+  }).required(),
 })
 
 export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
@@ -14,7 +19,6 @@ export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
         return await pluginSchema.validate(module.default, { stripUnknown: true })
       } catch (error) {
         if (error instanceof Error) {
-          // @ts-expect-error error cause is not correctly typed
           throw new Error(`Plugin "${plugin}" is invalid: ${error.message}`, { cause: error })
         } else {
           throw new Error(`Plugin "${plugin}" is invalid`)

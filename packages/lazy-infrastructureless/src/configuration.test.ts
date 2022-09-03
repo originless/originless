@@ -16,27 +16,27 @@ describe('getConfiguration', () => {
     const getConfiguration = await createGetConfiguration()
 
     assert.deepStrictEqual(await getConfiguration(), {
-      include: ['src/**/*.handler.ts'],
+      include: ['**/*.handler.ts'],
       exclude: ['node_modules/**'],
       plugins: [],
     })
   })
 
   it('uses the configuration file', async () => {
-    const getConfiguration = await createGetConfiguration({ include: ['src/**/*.api.ts'] })
+    const getConfiguration = await createGetConfiguration({ include: ['**/*.api.ts'] })
 
     assert.deepStrictEqual(await getConfiguration(), {
-      include: ['src/**/*.api.ts'],
+      include: ['**/*.api.ts'],
       exclude: ['node_modules/**'],
       plugins: [],
     })
   })
 
   it('uses the overrides', async () => {
-    const getConfiguration = await createGetConfiguration({ include: ['src/**/*.api.ts'] })
+    const getConfiguration = await createGetConfiguration({ include: ['**/*.api.ts'] })
 
-    assert.deepStrictEqual(await getConfiguration({ include: ['src/**/*.command.ts'] }), {
-      include: ['src/**/*.api.ts', 'src/**/*.command.ts'],
+    assert.deepStrictEqual(await getConfiguration({ include: ['**/*.command.ts'] }), {
+      include: ['**/*.api.ts', '**/*.command.ts'],
       exclude: ['node_modules/**'],
       plugins: [],
     })
@@ -44,7 +44,7 @@ describe('getConfiguration', () => {
     assert.deepStrictEqual(
       await getConfiguration({ plugins: ['@lazy/infrastructure-plugin-example-1'] }),
       {
-        include: ['src/**/*.api.ts'],
+        include: ['**/*.api.ts'],
         exclude: ['node_modules/**'],
         plugins: ['@lazy/infrastructure-plugin-example-1'],
       }
@@ -53,17 +53,17 @@ describe('getConfiguration', () => {
 
   it('deep merges with uniqueness', async () => {
     const getConfiguration = await createGetConfiguration({
-      include: ['src/**/*.api.ts'],
+      include: ['**/*.api.ts'],
       plugins: ['@lazy/infrastructure-plugin-example-1'],
     })
 
     assert.deepStrictEqual(
       await getConfiguration({
-        include: ['src/**/*.command.ts'],
+        include: ['**/*.command.ts'],
         plugins: ['@lazy/infrastructure-plugin-example-1'],
       }),
       {
-        include: ['src/**/*.api.ts', 'src/**/*.command.ts'],
+        include: ['**/*.api.ts', '**/*.command.ts'],
         exclude: ['node_modules/**'],
         plugins: ['@lazy/infrastructure-plugin-example-1'],
       }
@@ -72,7 +72,7 @@ describe('getConfiguration', () => {
     assert.deepStrictEqual(
       await getConfiguration({ plugins: ['@lazy/infrastructure-plugin-example-2'] }),
       {
-        include: ['src/**/*.api.ts'],
+        include: ['**/*.api.ts'],
         exclude: ['node_modules/**'],
         plugins: ['@lazy/infrastructure-plugin-example-1', '@lazy/infrastructure-plugin-example-2'],
       }
@@ -83,7 +83,7 @@ describe('getConfiguration', () => {
         plugins: ['@lazy/infrastructure-plugin-example-1', '@lazy/infrastructure-plugin-example-2'],
       }),
       {
-        include: ['src/**/*.api.ts'],
+        include: ['**/*.api.ts'],
         exclude: ['node_modules/**'],
         plugins: ['@lazy/infrastructure-plugin-example-1', '@lazy/infrastructure-plugin-example-2'],
       }
@@ -92,11 +92,11 @@ describe('getConfiguration', () => {
 
   it('strips unknown properties', async () => {
     const getConfiguration = await createGetConfiguration({
-      unknown: 'src/**/*.api.ts',
+      unknown: '**/*.api.ts',
     } as unknown as Configuration)
 
     assert.deepStrictEqual(await getConfiguration(), {
-      include: ['src/**/*.handler.ts'],
+      include: ['**/*.handler.ts'],
       exclude: ['node_modules/**'],
       plugins: [],
     })
