@@ -62,7 +62,6 @@ export const getConfiguration = async (
     return await configurationSchema.validate(configuration, { stripUnknown: true })
   } catch (error) {
     if (error instanceof Error) {
-      // @ts-expect-error error cause is not correctly typed
       throw new Error(`Invalid configuration: ${error.message}`, { cause: error })
     } else {
       throw new Error(`Invalid configuration`)

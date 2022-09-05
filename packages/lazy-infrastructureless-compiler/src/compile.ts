@@ -7,10 +7,10 @@ const traverse = (await import('@babel/traverse').then(
 export interface Plugin {
   name: string
   version: string
-  identifier: {
+  identifiers: {
     specifiers: string[]
     source: string
-  }
+  }[]
 }
 
 export const compile = async (
@@ -19,10 +19,12 @@ export const compile = async (
     {
       name: '@lazy/infrastructureless-plugin-discord-interactions',
       version: '0.0.0',
-      identifier: {
-        specifiers: ['SlashCommand', 'UserCommand', 'MessageCommand'],
-        source: '@lazy/infrastructureless-plugin-discord-interactions',
-      },
+      identifiers: [
+        {
+          specifiers: ['SlashCommand', 'UserCommand', 'MessageCommand'],
+          source: '@lazy/infrastructureless-plugin-discord-interactions',
+        },
+      ],
     },
   ]
 ) => {
@@ -30,7 +32,7 @@ export const compile = async (
     ExportNamedDeclaration(path) {
       const definitions = getDefinitions(path)
 
-      console.log(definitions)
+      console.dir(definitions, { depth: null })
     },
   })
 }

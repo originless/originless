@@ -4,10 +4,12 @@ import { array, object, string } from 'yup'
 const pluginSchema = object({
   name: string().required(),
   version: string().required(),
-  identifier: object({
-    specifiers: array(string().required()).required(),
-    source: string().required(),
-  }).required(),
+  identifiers: array(
+    object({
+      specifiers: array(string().required()).required(),
+      source: string().required(),
+    }).required()
+  ).required(),
 })
 
 export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
