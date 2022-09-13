@@ -4,8 +4,12 @@ import pkg from '../package.json' assert { type: 'json' }
 export default {
   name: pkg.name,
   version: pkg.version,
-  identifier:
-    'import { SlashCommand, UserCommand, MessageCommand } from "@lazy/infrastructureless-plugin-discord-interactions"',
+  identifiers: [
+    {
+      specifiers: ['SlashCommand', 'UserCommand', 'MessageCommand'],
+      source: '@lazy/infrastructureless-plugin-discord-interactions',
+    },
+  ],
 }
 
 export type SlashCommand<T extends `/${string}`> = unknown

@@ -15,7 +15,7 @@ const pluginSchema = object({
 export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
   return Promise.all(
     plugins.map(async (plugin) => {
-      const module = await import(plugin, { assert: { type: 'javascript' } })
+      const module = await import(plugin)
 
       try {
         return await pluginSchema.validate(module.default, { stripUnknown: true })

@@ -4,7 +4,12 @@ import pkg from '../package.json' assert { type: 'json' }
 export default {
   name: pkg.name,
   version: pkg.version,
-  identifier: 'import { API } from "@lazy/infrastructureless-plugin-api"',
+  identifiers: [
+    {
+      specifiers: ['API'],
+      source: '@lazy/infrastructureless-plugin-api',
+    },
+  ],
 }
 
 export type Method =
