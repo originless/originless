@@ -7,7 +7,7 @@ export default {
   identifiers: [
     {
       specifiers: ['API'],
-      source: '@lazy/infrastructureless-plugin-api',
+      source: '@lazy/infrastructureless-plugin-openapi',
     },
   ],
 }

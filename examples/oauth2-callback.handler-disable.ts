@@ -1,4 +1,4 @@
-import { API, Cookie, URLSearchParam } from '@lazy/infrastructureless-plugin-api'
+import { API, Cookie, URLSearchParam } from '@lazy/infrastructureless-plugin-openapi'
 
 type HandleCallbackParams =
   | {
