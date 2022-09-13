@@ -1,5 +1,5 @@
 import { File } from '@babel/types'
-import { getDefinitions } from './get-definitions.js'
+import { FunctionDefinition, getDefinitions } from './get-definitions.js'
 const traverse = (await import('@babel/traverse').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/traverse').default
@@ -13,26 +13,27 @@ export interface Plugin {
   }[]
 }
 
-export const compile = async (
-  ast: File,
-  plugins: Plugin[] = [
-    {
-      name: '@lazy/infrastructureless-plugin-discord-interactions',
-      version: '0.0.0',
-      identifiers: [
-        {
-          specifiers: ['SlashCommand', 'UserCommand', 'MessageCommand'],
-          source: '@lazy/infrastructureless-plugin-discord-interactions',
-        },
-      ],
-    },
-  ]
-) => {
+export const compile = async (ast: File, plugins: Plugin[]) => {
+  const definitions: FunctionDefinition[] = []
+
   traverse(ast, {
     ExportNamedDeclaration(path) {
-      const definitions = getDefinitions(path)
-
-      console.dir(definitions, { depth: null })
+      definitions.push(...getDefinitions(path))
     },
   })
+
+  for (const definition of definitions) {
+    if (definition.annotation.type === 'reference') {
+      for (const plugin of plugins) {
+        for (const identifier of plugin.identifiers) {
+          if (
+            definition.annotation.source === identifier.source &&
+            identifier.specifiers.includes(definition.annotation.name)
+          ) {
+            console.log(plugin)
+          }
+        }
+      }
+    }
+  }
 }

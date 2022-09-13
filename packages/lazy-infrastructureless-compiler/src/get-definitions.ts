@@ -14,7 +14,7 @@ import {
 import { getDescription } from './get-description.js'
 
 export interface AnnotationImport {
-  type: 'import'
+  type: 'reference'
   name: string
   source: string
   generics: Annotation[]
@@ -65,7 +65,7 @@ export interface FunctionParameter {
   annotation: Annotation | null
 }
 
-export interface Function {
+export interface FunctionDefinition {
   type: 'function'
   name: string
   description: string | null
@@ -174,7 +174,7 @@ export const getAnnotationForTsType = (path: NodePath<TSType>): Annotation => {
       switch (source.node.type) {
         case 'ImportDeclaration': {
           return {
-            type: 'import',
+            type: 'reference',
             name,
             source: source.node.source.value,
             generics: parameters,
@@ -212,8 +212,8 @@ export const getFunctionParametersForFunction = (
   })
 }
 
-export const getDefinitions = (path: NodePath<ExportNamedDeclaration>): Function[] => {
-  const definitions: Function[] = []
+export const getDefinitions = (path: NodePath<ExportNamedDeclaration>): FunctionDefinition[] => {
+  const definitions: FunctionDefinition[] = []
 
   if (path.node.declaration?.type === 'VariableDeclaration') {
     for (const variablePath of path
