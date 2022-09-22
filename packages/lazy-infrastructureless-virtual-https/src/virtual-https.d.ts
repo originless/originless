@@ -1,4 +1,4 @@
-declare module 'virtual:http' {
+declare module 'virtual:https' {
   export type Method =
     | 'GET'
     | 'HEAD'

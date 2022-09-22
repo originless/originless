@@ -1,4 +1,4 @@
-import { type Cookie, type Endpoint, type SearchParam } from 'virtual:http'
+import { type Cookie, type Endpoint, type SearchParam } from 'virtual:https'
 
 type HandleCallbackParams =
   | {
