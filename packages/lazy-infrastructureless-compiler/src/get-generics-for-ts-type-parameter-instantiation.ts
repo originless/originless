@@ -1,6 +1,6 @@
-import { NodePath } from '@babel/traverse'
-import { TSType, TSTypeParameterInstantiation } from '@babel/types'
-import { Annotation } from '@lazy/infrastructureless-types-handler'
+import { type NodePath } from '@babel/traverse'
+import { type TSType, type TSTypeParameterInstantiation } from '@babel/types'
+import { type Annotation } from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 
 export const getGenericsForTSTypeParameterInstantiation = (

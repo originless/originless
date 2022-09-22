@@ -6,6 +6,7 @@
   },
   "include": ["./src/**/*.ts"],
   "references": [
-    { "path": "../lazy-infrastructureless-compiler" }
+    { "path": "../lazy-infrastructureless-compiler" },
+    { "path": "../lazy-infrastructureless-types" }
   ]
 }

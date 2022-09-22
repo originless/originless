@@ -1,16 +1,18 @@
-import { NodePath } from '@babel/traverse'
+import { type NodePath } from '@babel/traverse'
 import {
-  ArrowFunctionExpression,
-  ExportNamedDeclaration,
-  TSType,
-  VariableDeclarator,
+  type ArrowFunctionExpression,
+  type ExportNamedDeclaration,
+  type TSType,
+  type VariableDeclarator,
 } from '@babel/types'
-import { HandlerDefinition } from '@lazy/infrastructureless-types-handler'
+import { type HandlerDefinition } from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 import { getDescription } from './get-description.js'
 import { getFunctionParametersForFunction } from './get-function-parameters-for-function.js'
 
-export const getDefinitions = (path: NodePath<ExportNamedDeclaration>): HandlerDefinition[] => {
+export const getHandlerDefinitions = (
+  path: NodePath<ExportNamedDeclaration>
+): HandlerDefinition[] => {
   const definitions: HandlerDefinition[] = []
 
   if (path.node.declaration?.type === 'VariableDeclaration') {

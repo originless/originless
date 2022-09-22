@@ -1,5 +1,10 @@
-import { NodePath } from '@babel/traverse'
-import { ImportDeclaration, Program, TSType, TSTypeReference } from '@babel/types'
+import { type NodePath } from '@babel/traverse'
+import {
+  type ImportDeclaration,
+  type Program,
+  type TSType,
+  type TSTypeReference,
+} from '@babel/types'
 
 export const getSourceForTSTypeReference = (
   path: NodePath<TSTypeReference>,

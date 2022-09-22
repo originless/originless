@@ -1,6 +1,6 @@
-import { NodePath } from '@babel/traverse'
-import { ArrowFunctionExpression, TSType } from '@babel/types'
-import { FunctionParameter } from '@lazy/infrastructureless-types-handler'
+import { type NodePath } from '@babel/traverse'
+import { type ArrowFunctionExpression, type TSType } from '@babel/types'
+import { type FunctionParameter } from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 import { getDescription } from './get-description.js'
 

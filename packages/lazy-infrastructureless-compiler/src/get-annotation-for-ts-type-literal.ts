@@ -1,6 +1,9 @@
-import { NodePath } from '@babel/traverse'
-import { Expression, TSType, TSTypeElement, TSTypeLiteral } from '@babel/types'
-import { AnnotationObject, AnnotationObjectProperty } from '@lazy/infrastructureless-types-handler'
+import { type NodePath } from '@babel/traverse'
+import { type Expression, type TSType, type TSTypeElement, type TSTypeLiteral } from '@babel/types'
+import {
+  type AnnotationObject,
+  type AnnotationObjectProperty,
+} from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 import { getNameFromExpression } from './get-name-from-expression.js'
 

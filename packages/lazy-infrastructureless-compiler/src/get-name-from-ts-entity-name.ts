@@ -1,5 +1,5 @@
-import { NodePath } from '@babel/traverse'
-import { Identifier, TSEntityName } from '@babel/types'
+import { type NodePath } from '@babel/traverse'
+import { type Identifier, type TSEntityName } from '@babel/types'
 
 export const getNameFromTSEntityName = (path: NodePath<TSEntityName>): string => {
   switch (path.node.type) {

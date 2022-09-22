@@ -1,23 +1,9 @@
 import { parse } from '@babel/parser'
-import { HandlerDefinition } from '@lazy/infrastructureless-types-handler'
-import { getDefinitions } from './get-definitions.js'
+import { type HandlerDefinition, type Host, type Plugin } from '@lazy/infrastructureless-types'
+import { getHandlerDefinitions } from './get-handler-definitions.js'
 const traverse = (await import('@babel/traverse').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/traverse').default
-
-export interface Plugin {
-  name: string
-  version: string
-  identifiers: {
-    specifiers: string[]
-    source: string
-  }[]
-}
-
-export interface Host {
-  readFile: (path: string) => Promise<string>
-  saveFile: (path: string, content: string) => Promise<void>
-}
 
 export interface CreateCompilerOptions {
   plugins: Plugin[]
@@ -33,12 +19,12 @@ export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
       const ast = parse(content, {
         sourceType: 'module',
         sourceFilename: handler,
-        plugins: ['typescript'],
+        plugins: ['typescript', 'jsx'],
       })
 
       traverse(ast, {
         ExportNamedDeclaration(path) {
-          definitions.push(...getDefinitions(path))
+          definitions.push(...getHandlerDefinitions(path))
         },
       })
     }

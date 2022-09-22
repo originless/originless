@@ -1,4 +1,4 @@
-import { Host } from '@lazy/infrastructureless-compiler'
+import { type Host } from '@lazy/infrastructureless-types'
 import { promises as fs } from 'fs'
 
 export const createHost = (): Host => {

@@ -1,4 +1,4 @@
-import { SlashCommand } from 'virtual:discord'
+import { type SlashCommand } from 'virtual:discord'
 
 /* Send a random adorable animal photo */
 export const handleBlep: SlashCommand<'/blep'> = async (

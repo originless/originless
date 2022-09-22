@@ -33,6 +33,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@lazy/infrastructureless-types": "*",
     "@types/lodash.mergewith": "^4.6.7",
     "@types/lodash.uniq": "^4.5.7",
     "@types/node": "^18.7.14",

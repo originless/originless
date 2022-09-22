@@ -1,13 +1,13 @@
-import { NodePath } from '@babel/traverse'
+import { type NodePath } from '@babel/traverse'
 import {
-  TSEntityName,
-  TSType,
-  TSTypeLiteral,
-  TSTypeParameterInstantiation,
-  TSTypeReference,
-  TSUnionType,
+  type TSEntityName,
+  type TSType,
+  type TSTypeLiteral,
+  type TSTypeParameterInstantiation,
+  type TSTypeReference,
+  type TSUnionType,
 } from '@babel/types'
-import { Annotation } from '@lazy/infrastructureless-types-handler'
+import { type Annotation } from '@lazy/infrastructureless-types'
 import { getAnnotationForTSTypeLiteral } from './get-annotation-for-ts-type-literal.js'
 import { getAnnotationForTSUnionType } from './get-annotation-for-ts-union-type.js'
 import { getGenericsForTSTypeParameterInstantiation } from './get-generics-for-ts-type-parameter-instantiation.js'

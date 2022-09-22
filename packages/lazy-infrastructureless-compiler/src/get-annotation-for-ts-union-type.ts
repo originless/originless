@@ -1,6 +1,6 @@
-import { NodePath } from '@babel/traverse'
-import { TSType, TSUnionType } from '@babel/types'
-import { Annotation, AnnotationUnion } from '@lazy/infrastructureless-types-handler'
+import { type NodePath } from '@babel/traverse'
+import { type TSType, type TSUnionType } from '@babel/types'
+import { type Annotation, type AnnotationUnion } from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 
 export const getAnnotationForTSUnionType = (path: NodePath<TSUnionType>): AnnotationUnion => {

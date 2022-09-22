@@ -1,4 +1,4 @@
-import { Plugin } from '@lazy/infrastructureless-compiler'
+import { type Plugin } from '@lazy/infrastructureless-types'
 import { array, object, string } from 'yup'
 
 const pluginSchema = object({

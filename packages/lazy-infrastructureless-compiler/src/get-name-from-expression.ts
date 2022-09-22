@@ -1,5 +1,5 @@
-import { NodePath } from '@babel/traverse'
-import { Expression } from '@babel/types'
+import { type NodePath } from '@babel/traverse'
+import { type Expression } from '@babel/types'
 
 export const getNameFromExpression = (path: NodePath<Expression>): string => {
   switch (path.node.type) {
