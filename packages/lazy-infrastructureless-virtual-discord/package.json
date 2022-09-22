@@ -1,29 +1,25 @@
 {
-  "name": "@lazy/infrastructureless-plugin-openapi",
+  "name": "@lazy/infrastructureless-virtual-discord",
   "version": "1.0.0-alpha.0",
   "description": "Infrastructureless",
   "license": "MIT",
   "private": true,
   "repository": {
-    "directory": "packages/lazy-infrastructureless-plugin-openapi",
+    "directory": "packages/lazy-infrastructureless-virtual-discord",
     "type": "git",
     "url": "https://github.com/aidant/lazy-infrastructureless.git"
   },
   "bugs": {
     "url": "https://github.com/aidant/lazy-infrastructureless/issues"
   },
-  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-plugin-openapi#readme",
+  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-virtual-discord#readme",
   "keywords": [],
-  "main": "./lib/plugin-openapi.js",
-  "exports": "./lib/plugin-openapi.js",
   "scripts": {
-    "build": "tsc --build",
-    "pretest": "npm run build",
-    "test": "node --test"
+    "build": "tsc --build"
   },
   "sideEffects": false,
   "type": "module",
-  "types": "./lib/plugin-openapi.d.ts",
+  "types": "./src/virtual-discord.d.ts",
   "dependencies": {},
   "devDependencies": {
     "typescript": "^4.6.2"

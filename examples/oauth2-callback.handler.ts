@@ -1,23 +1,65 @@
-import { API, Cookie, URLSearchParam } from '@lazy/infrastructureless-plugin-openapi'
+import { Cookie, Endpoint, SearchParam } from 'virtual:http'
 
 type HandleCallbackParams =
   | {
-      state: URLSearchParam<'state'>
-      code: URLSearchParam<'code'>
+      state: SearchParam<'state'>
+      code: SearchParam<'code'>
     }
   | {
-      state: URLSearchParam<'state'>
-      error: URLSearchParam<'state'>
-      error_description: URLSearchParam<'error_description'>
-      error_uri: URLSearchParam<'error_uri'>
+      state: SearchParam<'state'>
+      error: SearchParam<'state'>
+      error_description: SearchParam<'error_description'>
+      error_uri: SearchParam<'error_uri'>
     }
 
 type HandleCallbackCookies = {
-  userId?: Cookie<'User'>
+  accessToken?: Cookie<'AccessToken'>
   stateSignature?: Cookie<'StateSignature'>
 }
 
-export const handleCallback: API<'POST', '/callback'> = (
+const verifyAccessToken = async (accessToken?: string) => {
+  return Boolean(accessToken)
+}
+
+const verifyStateSignature = async (state: string, stateSignature?: string): Promise<boolean> => {
+  return true
+}
+
+const exchangeAuthorizationCode = async (code: string) => {}
+
+export const handleCallback: Endpoint<'POST', '/callback'> = async (
   params: HandleCallbackParams,
-  { userId, stateSignature }: HandleCallbackCookies = {}
-) => {}
+  { accessToken, stateSignature }: HandleCallbackCookies = {}
+) => {
+  const accessTokenIsValid = await verifyAccessToken(accessToken)
+  if (!accessTokenIsValid) {
+    return {
+      status: 302,
+      headers: {
+        Location: '/login',
+      },
+    }
+  }
+
+  const stateSignatureIsValid = await verifyStateSignature(params.state, stateSignature)
+  if (!stateSignatureIsValid) {
+    return {
+      status: 400,
+    }
+  }
+
+  if ('code' in params && params.code) {
+    await exchangeAuthorizationCode(params.code)
+
+    return {
+      status: 302,
+      headers: {
+        Location: '/',
+      },
+    }
+  } else {
+    return {
+      status: 400,
+    }
+  }
+}

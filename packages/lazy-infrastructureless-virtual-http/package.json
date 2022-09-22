@@ -1,0 +1,27 @@
+{
+  "name": "@lazy/infrastructureless-virtual-http",
+  "version": "1.0.0-alpha.0",
+  "description": "Infrastructureless",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/lazy-infrastructureless-virtual-http",
+    "type": "git",
+    "url": "https://github.com/aidant/lazy-infrastructureless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aidant/lazy-infrastructureless/issues"
+  },
+  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-virtual-http#readme",
+  "keywords": [],
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./src/virtual-http.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}

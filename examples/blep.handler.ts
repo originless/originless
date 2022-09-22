@@ -1,4 +1,4 @@
-import { SlashCommand } from '@lazy/infrastructureless-plugin-discord-interactions'
+import { SlashCommand } from 'virtual:discord'
 
 /* Send a random adorable animal photo */
 export const handleBlep: SlashCommand<'/blep'> = async (
