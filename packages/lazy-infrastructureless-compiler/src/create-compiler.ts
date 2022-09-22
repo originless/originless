@@ -40,17 +40,19 @@ export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
           definitions.push(...getDefinitions(path))
         },
       })
+    }
 
-      for (const definition of definitions) {
-        if (definition.annotation.type === 'reference') {
-          for (const plugin of plugins) {
-            for (const identifier of plugin.identifiers) {
-              if (
-                definition.annotation.source === identifier.source &&
-                identifier.specifiers.includes(definition.annotation.name)
-              ) {
-                console.log(plugin)
-              }
+    console.dir(definitions, { depth: null })
+
+    for (const definition of definitions) {
+      if (definition.annotation.type === 'reference') {
+        for (const plugin of plugins) {
+          for (const identifier of plugin.identifiers) {
+            if (
+              definition.annotation.source === identifier.source &&
+              identifier.specifiers.includes(definition.annotation.name)
+            ) {
+              console.log(plugin)
             }
           }
         }
