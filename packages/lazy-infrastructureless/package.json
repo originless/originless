@@ -29,8 +29,6 @@
   "type": "module",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "@babel/generator": "^7.18.13",
-    "@babel/parser": "^7.18.13",
     "fast-glob": "^3.2.11",
     "lilconfig": "^2.0.6",
     "lodash.mergewith": "^4.6.2",

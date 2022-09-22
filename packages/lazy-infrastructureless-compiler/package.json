@@ -14,21 +14,23 @@
   },
   "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-compiler#readme",
   "keywords": [],
-  "main": "./lib/compile.js",
-  "exports": "./lib/compile.js",
+  "main": "./lib/create-compiler.js",
+  "exports": "./lib/create-compiler.js",
   "scripts": {
     "build": "tsc --build",
     "pretest": "npm run build",
     "test": "node --test",
     "prestart": "npm run build",
     "start": "concurrently --kill-others-on-fail npm:start:typescript npm:start:nodemon",
-    "start:nodemon": "nodemon --watch .. ./lib/compile.js",
+    "start:nodemon": "nodemon --watch .. ./lib/create-compiler.js",
     "start:typescript": "tsc --build --watch --preserveWatchOutput"
   },
   "sideEffects": false,
   "type": "module",
-  "types": "./lib/compile.d.ts",
+  "types": "./lib/create-compiler.d.ts",
   "dependencies": {
+    "@babel/generator": "^7.18.13",
+    "@babel/parser": "^7.18.13",
     "@babel/traverse": "^7.18.13",
     "@babel/types": "^7.18.13",
     "yup": "^0.32.11"
