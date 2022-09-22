@@ -1,5 +1,6 @@
 import { parse } from '@babel/parser'
-import { FunctionDefinition, getDefinitions } from './get-definitions.js'
+import { HandlerDefinition } from '@lazy/infrastructureless-types-handler'
+import { getDefinitions } from './get-definitions.js'
 const traverse = (await import('@babel/traverse').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/traverse').default
@@ -25,7 +26,7 @@ export interface CreateCompilerOptions {
 
 export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
   return async (handlers: string[]) => {
-    const definitions: FunctionDefinition[] = []
+    const definitions: HandlerDefinition[] = []
 
     for (const handler of handlers) {
       const content = await host.readFile(handler)
@@ -45,7 +46,7 @@ export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
     console.dir(definitions, { depth: null })
 
     for (const definition of definitions) {
-      if (definition.annotation.type === 'reference') {
+      if (definition.annotation.type === 'virtual') {
         for (const plugin of plugins) {
           for (const identifier of plugin.identifiers) {
             if (

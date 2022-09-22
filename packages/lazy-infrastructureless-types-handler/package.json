@@ -1,0 +1,27 @@
+{
+  "name": "@lazy/infrastructureless-types-handler",
+  "version": "1.0.0-alpha.0",
+  "description": "Infrastructureless",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/lazy-infrastructureless-types-handler",
+    "type": "git",
+    "url": "https://github.com/aidant/lazy-infrastructureless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aidant/lazy-infrastructureless/issues"
+  },
+  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-types-handler#readme",
+  "keywords": [],
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./src/types-handler.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}
