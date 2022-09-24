@@ -1,6 +1,6 @@
 import { type CompilerHost } from '@lazy/infrastructureless-types'
 import { promises as fs } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { dirname, relative, resolve } from 'node:path'
 
 export const createCompilerHost = (): CompilerHost => {
   return {
@@ -10,8 +10,11 @@ export const createCompilerHost = (): CompilerHost => {
     createResource: async (specifier, content) => {
       return fs.writeFile(specifier, content, 'utf-8')
     },
-    getSpecifier: (parentSpecifier, childSpecifier) => {
+    getAbsoluteSpecifier: (parentSpecifier, childSpecifier) => {
       return resolve(dirname(parentSpecifier), childSpecifier)
+    },
+    getRelativeSpecifier: (parentSpecifier, childSpecifier) => {
+      return './' + relative(dirname(parentSpecifier), childSpecifier)
     },
   }
 }

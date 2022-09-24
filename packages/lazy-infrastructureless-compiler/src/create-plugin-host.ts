@@ -3,6 +3,7 @@ const generate = (await import('@babel/generator').then(
 )) as unknown as typeof import('@babel/generator').default
 import { type File, type Statement } from '@babel/types'
 import { type CompilerHost, type PluginHost } from '@lazy/infrastructureless-types'
+import prettier from 'prettier'
 
 export interface CreatePluginHostOptions {
   specifier: string
@@ -16,27 +17,45 @@ export const createPluginHost = ({
   handleResource,
 }: CreatePluginHostOptions): PluginHost => {
   return {
+    getGeneratedSpecifier: (name) =>
+      parentSpecifier.replace(/\.handler\.ts$/, '.g.ts') as `${string}.g.ts`,
+    getRelativeSpecifier: host.getRelativeSpecifier,
     createResource: async (childSpecifier, contents) => {
-      const specifier = host.getSpecifier(parentSpecifier, childSpecifier)
+      const specifier = host.getAbsoluteSpecifier(parentSpecifier, childSpecifier)
       const source =
         typeof contents === 'object'
-          ? generate(
-              {
-                type: 'File',
-                program: {
-                  type: 'Program',
-                  sourceType: 'module',
-                  sourceFile: specifier,
-                  body: contents,
-                  directives: [],
+          ? prettier.format(
+              generate(
+                {
+                  type: 'File',
+                  program: {
+                    type: 'Program',
+                    sourceType: 'module',
+                    sourceFile: specifier,
+                    body: contents,
+                    directives: [],
+                  },
                 },
-              },
+                {
+                  filename: specifier,
+                  retainFunctionParens: true,
+                  retainLines: true,
+                }
+              ).code,
               {
-                filename: specifier,
-                retainFunctionParens: true,
-                retainLines: true,
+                printWidth: 80,
+                tabWidth: 2,
+                useTabs: false,
+                semi: false,
+                singleQuote: true,
+                quoteProps: 'consistent',
+                jsxSingleQuote: true,
+                trailingComma: 'all',
+                bracketSpacing: true,
+                bracketSameLine: false,
+                arrowParens: 'always',
               }
-            ).code
+            )
           : contents
 
       if (childSpecifier.endsWith('handler.g.ts')) {
