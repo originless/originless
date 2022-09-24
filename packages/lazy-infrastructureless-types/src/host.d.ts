@@ -1,4 +1,4 @@
-import { type File, type ParseResult } from '@babel/types'
+import { type Statement } from '@babel/types'
 
 export interface CompilerHost {
   getResource: (specifier: string) => Promise<string>
@@ -10,7 +10,7 @@ export interface PluginHost {
   createResource: <T extends string>(
     specifier: T,
     contents: T extends `${string}.g.${'ts' | 'tsx' | 'js' | 'jsx' | 'mjs' | 'cjs'}`
-      ? string | ParseResult<File>
+      ? string | Statement[]
       : string
   ) => Promise<void>
 }

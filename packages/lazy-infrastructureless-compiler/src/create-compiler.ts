@@ -1,14 +1,13 @@
-import { parse, type ParseResult } from '@babel/parser'
+import { parse } from '@babel/parser'
 import { type File } from '@babel/types'
 import {
   type CompilerHost,
-  type Handler,
   type Plugin,
   type PluginHost,
   type Resource,
 } from '@lazy/infrastructureless-types'
+import { createPluginHost } from './create-plugin-host.js'
 import { getHandlers } from './get-handlers.js'
-import { createPluginHost } from './plugin-host.js'
 const traverse = (await import('@babel/traverse').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/traverse').default
@@ -19,7 +18,7 @@ export interface CreateCompilerOptions {
 }
 
 export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
-  const parseResource = (specifier: string, contents: ParseResult<File>): Resource[] => {
+  const parseResource = (specifier: string, contents: File): Resource[] => {
     const resources: Resource[] = []
 
     traverse(contents, {
@@ -56,12 +55,21 @@ export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
     return resources
   }
 
-  const callPlugins = async (handler: Handler, host: PluginHost): Promise<void> => {
+  const callPlugins = async (resource: Resource, host: PluginHost): Promise<void> => {
     for (const plugin of plugins) {
-      for (const type of plugin.accepts) {
-        if (handler.annotation.source === type) {
-          plugin.handler(handler, host)
-        }
+      const handlers = resource.handlers.filter((handler) =>
+        plugin.accepts.includes(handler.annotation.source)
+      )
+
+      if (handlers.length) {
+        await plugin.handler(
+          {
+            type: 'resource',
+            specifier: resource.specifier,
+            handlers,
+          },
+          host
+        )
       }
     }
   }
@@ -77,9 +85,7 @@ export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
         },
       })
 
-      for (const handler of resource.handlers) {
-        await callPlugins(handler, pluginHost)
-      }
+      await callPlugins(resource, pluginHost)
     }
   }
 
