@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "composite": true,
     "declaration": true,
     "declarationMap": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2021",
-    "skipLibCheck": true
+    "target": "ES2021"
   }
 }

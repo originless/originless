@@ -1,21 +1,21 @@
 {
-  "name": "@lazy/infrastructureless-compiler",
+  "name": "@lazy/infrastructureless-plugin-aws",
   "version": "1.0.0-alpha.0",
   "description": "Infrastructureless",
   "license": "MIT",
   "private": true,
   "repository": {
-    "directory": "packages/lazy-infrastructureless-compiler",
+    "directory": "packages/lazy-infrastructureless-plugin-aws",
     "type": "git",
     "url": "https://github.com/aidant/lazy-infrastructureless.git"
   },
   "bugs": {
     "url": "https://github.com/aidant/lazy-infrastructureless/issues"
   },
-  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-compiler#readme",
+  "homepage": "https://github.com/aidant/lazy-infrastructureless/tree/main/packages/lazy-infrastructureless-plugin-aws#readme",
   "keywords": [],
-  "main": "./lib/create-compiler.js",
-  "exports": "./lib/create-compiler.js",
+  "main": "./lib/plugin-aws.js",
+  "exports": "./lib/plugin-aws.js",
   "scripts": {
     "build": "tsc --build",
     "pretest": "npm run build",
@@ -23,17 +23,14 @@
   },
   "sideEffects": false,
   "type": "module",
-  "types": "./lib/create-compiler.d.ts",
+  "types": "./lib/plugin-aws.d.ts",
   "dependencies": {
-    "@babel/generator": "^7.18.13",
-    "@babel/parser": "^7.18.13",
-    "@babel/traverse": "^7.18.13",
-    "@babel/types": "^7.18.13"
+    "@babel/template": "^7.18.10"
   },
   "devDependencies": {
     "@lazy/infrastructureless-types": "*",
-    "@types/babel__generator": "^7.6.4",
-    "@types/babel__traverse": "^7.18.1",
+    "@lazy/infrastructureless-utils": "*",
+    "@types/babel__template": "^7.4.1",
     "typescript": "^4.6.2"
   }
 }

@@ -1,7 +1,7 @@
 import { createCompiler } from '@lazy/infrastructureless-compiler'
 import glob from 'fast-glob'
 import { getConfiguration, type Configuration } from './configuration.js'
-import { createHost } from './create-host.js'
+import { createCompilerHost } from './create-compiler-host.js'
 import { getRootDirectory } from './get-root-directory.js'
 import { getPlugins } from './plugins.js'
 
@@ -10,7 +10,7 @@ export const build = async (overrides?: Partial<Configuration>) => {
 
   const plugins = await getPlugins(configuration.plugins)
 
-  const host = createHost()
+  const host = createCompilerHost()
 
   const compiler = createCompiler({ plugins, host })
 

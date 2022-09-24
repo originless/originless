@@ -3,16 +3,16 @@ import { lilconfig } from 'lilconfig'
 import { type MergeWithCustomizer } from 'lodash'
 import _mergeWith from 'lodash.mergewith'
 import _uniq from 'lodash.uniq'
-import { array, InferType, object, string } from 'yup'
+import { z } from 'zod'
 import { getRootDirectory } from './get-root-directory.js'
 
-const configurationSchema = object({
-  include: array(string().required()).default(['**/*.handler.ts']),
-  exclude: array(string().required()).default(['node_modules/**']),
-  plugins: array(string().required()).required(),
+const configurationSchema = z.object({
+  include: z.array(z.string()).default(['**/*.handler.ts']),
+  exclude: z.array(z.string()).default(['node_modules/**']),
+  plugins: z.array(z.string()),
 })
 
-export type Configuration = InferType<typeof configurationSchema>
+export type Configuration = z.infer<typeof configurationSchema>
 
 export const mergeConfiguration = (
   ...configurations: Partial<Configuration>[]
@@ -59,7 +59,7 @@ export const getConfiguration = async (
   configuration.plugins = _uniq(configuration.plugins)
 
   try {
-    return await configurationSchema.validate(configuration, { stripUnknown: true })
+    return configurationSchema.parse(configuration)
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Invalid configuration: ${error.message}`, { cause: error })

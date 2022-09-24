@@ -1,8 +1,9 @@
+import { type Handler } from './handler-definition.js'
+import { type PluginHost } from './host.js'
+
 export interface Plugin {
   name: string
   version: string
-  identifiers: {
-    specifiers: string[]
-    source: string
-  }[]
+  accepts: string[]
+  handler: (definition: Handler, host: PluginHost) => Promise<void> | void
 }

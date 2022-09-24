@@ -71,10 +71,16 @@ export interface FunctionParameter {
   annotation: Annotation | null
 }
 
-export interface HandlerDefinition {
+export interface Handler {
   type: 'handler'
   name: string
   description: string | null
   annotation: AnnotationVirtual
   parameters: FunctionParameter[]
+}
+
+export interface Resource {
+  type: 'resource'
+  specifier: string
+  handlers: Handler[]
 }

@@ -1,49 +1,90 @@
-import { parse } from '@babel/parser'
-import { type HandlerDefinition, type Host, type Plugin } from '@lazy/infrastructureless-types'
-import { getHandlerDefinitions } from './get-handler-definitions.js'
+import { parse, type ParseResult } from '@babel/parser'
+import { type File } from '@babel/types'
+import {
+  type CompilerHost,
+  type Handler,
+  type Plugin,
+  type PluginHost,
+  type Resource,
+} from '@lazy/infrastructureless-types'
+import { getHandlers } from './get-handlers.js'
+import { createPluginHost } from './plugin-host.js'
 const traverse = (await import('@babel/traverse').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/traverse').default
 
 export interface CreateCompilerOptions {
   plugins: Plugin[]
-  host: Host
+  host: CompilerHost
 }
 
 export const createCompiler = ({ plugins, host }: CreateCompilerOptions) => {
-  return async (handlers: string[]) => {
-    const definitions: HandlerDefinition[] = []
+  const parseResource = (specifier: string, contents: ParseResult<File>): Resource[] => {
+    const resources: Resource[] = []
 
-    for (const handler of handlers) {
-      const content = await host.readFile(handler)
+    traverse(contents, {
+      ExportNamedDeclaration(path) {
+        const handlers = getHandlers(path)
+
+        if (handlers.length) {
+          resources.push({
+            type: 'resource',
+            specifier,
+            handlers,
+          })
+        }
+      },
+    })
+
+    return resources
+  }
+
+  const getResources = async (specifiers: string[]): Promise<Resource[]> => {
+    const resources: Resource[] = []
+
+    for (const specifier of specifiers) {
+      const content = await host.getResource(specifier)
       const ast = parse(content, {
         sourceType: 'module',
-        sourceFilename: handler,
+        sourceFilename: specifier,
         plugins: ['typescript', 'jsx'],
       })
 
-      traverse(ast, {
-        ExportNamedDeclaration(path) {
-          definitions.push(...getHandlerDefinitions(path))
-        },
-      })
+      resources.push(...parseResource(specifier, ast))
     }
 
-    console.dir(definitions, { depth: null })
+    return resources
+  }
 
-    for (const definition of definitions) {
-      if (definition.annotation.type === 'virtual') {
-        for (const plugin of plugins) {
-          for (const identifier of plugin.identifiers) {
-            if (
-              definition.annotation.source === identifier.source &&
-              identifier.specifiers.includes(definition.annotation.name)
-            ) {
-              console.log(plugin)
-            }
-          }
+  const callPlugins = async (handler: Handler, host: PluginHost): Promise<void> => {
+    for (const plugin of plugins) {
+      for (const type of plugin.accepts) {
+        if (handler.annotation.source === type) {
+          plugin.handler(handler, host)
         }
       }
     }
+  }
+
+  const handleResources = async (resources: Resource[]): Promise<void> => {
+    for (const resource of resources) {
+      const pluginHost = createPluginHost({
+        specifier: resource.specifier,
+        host,
+        handleResource: async (specifier, contents) => {
+          const resources = parseResource(specifier, contents)
+          await handleResources(resources)
+        },
+      })
+
+      for (const handler of resource.handlers) {
+        await callPlugins(handler, pluginHost)
+      }
+    }
+  }
+
+  return async (handlers: string[]) => {
+    const resources = await getResources(handlers)
+    await handleResources(resources)
   }
 }

@@ -11,7 +11,8 @@ export {
   type AnnotationUnion,
   type AnnotationVirtual,
   type FunctionParameter,
-  type HandlerDefinition,
+  type Handler,
+  type Resource,
 } from './handler-definition.js'
-export { type Host } from './host.js'
+export { type CompilerHost, type PluginHost } from './host.js'
 export { type Plugin } from './plugin.js'

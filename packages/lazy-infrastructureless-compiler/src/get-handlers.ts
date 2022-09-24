@@ -5,15 +5,13 @@ import {
   type TSType,
   type VariableDeclarator,
 } from '@babel/types'
-import { type HandlerDefinition } from '@lazy/infrastructureless-types'
+import { type Handler } from '@lazy/infrastructureless-types'
 import { getAnnotationForTsType } from './get-annotation-for-ts-type.js'
 import { getDescription } from './get-description.js'
 import { getFunctionParametersForFunction } from './get-function-parameters-for-function.js'
 
-export const getHandlerDefinitions = (
-  path: NodePath<ExportNamedDeclaration>
-): HandlerDefinition[] => {
-  const definitions: HandlerDefinition[] = []
+export const getHandlers = (path: NodePath<ExportNamedDeclaration>): Handler[] => {
+  const handlers: Handler[] = []
 
   if (path.node.declaration?.type === 'VariableDeclaration') {
     for (const variablePath of path
@@ -35,7 +33,7 @@ export const getHandlerDefinitions = (
 
         if (annotation?.type !== 'virtual') continue
 
-        definitions.push({
+        handlers.push({
           type: 'handler',
           name,
           description,
@@ -46,5 +44,5 @@ export const getHandlerDefinitions = (
     }
   }
 
-  return definitions
+  return handlers
 }

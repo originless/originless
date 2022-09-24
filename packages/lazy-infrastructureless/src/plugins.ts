@@ -1,15 +1,11 @@
 import { type Plugin } from '@lazy/infrastructureless-types'
-import { array, object, string } from 'yup'
+import { z } from 'zod'
 
-const pluginSchema = object({
-  name: string().required(),
-  version: string().required(),
-  identifiers: array(
-    object({
-      specifiers: array(string().required()).required(),
-      source: string().required(),
-    }).required()
-  ).required(),
+const pluginSchema = z.object({
+  name: z.string(),
+  version: z.string(),
+  accepts: z.array(z.string()).min(1),
+  handler: z.function().args(z.any(), z.any()).returns(z.any()),
 })
 
 export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
@@ -18,7 +14,7 @@ export const getPlugins = async (plugins: string[]): Promise<Plugin[]> => {
       const module = await import(plugin)
 
       try {
-        return await pluginSchema.validate(module.default, { stripUnknown: true })
+        return pluginSchema.parse(module.default)
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Plugin "${plugin}" is invalid: ${error.message}`, { cause: error })

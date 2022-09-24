@@ -20,7 +20,9 @@
   "sideEffects": false,
   "type": "module",
   "types": "./src/types.d.ts",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/types": "^7.19.0"
+  },
   "devDependencies": {
     "typescript": "^4.6.2"
   }
