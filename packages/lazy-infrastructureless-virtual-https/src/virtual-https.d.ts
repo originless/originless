@@ -30,7 +30,7 @@ declare module 'virtual:https' {
     body?: string
   }
 
-  export type Endpoint<M extends Method, P extends Path> = (
-    ...parameters: any[]
+  export type Endpoint<M extends Method, P extends Path> = <T extends unknown[]>(
+    ...parameters: T
   ) => Promise<Response> | Response
 }

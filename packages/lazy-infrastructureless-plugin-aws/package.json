@@ -25,12 +25,14 @@
   "type": "module",
   "types": "./lib/plugin-aws.d.ts",
   "dependencies": {
-    "@babel/template": "^7.18.10"
+    "@babel/template": "^7.18.10",
+    "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
     "@lazy/infrastructureless-types": "*",
     "@lazy/infrastructureless-utils": "*",
     "@types/babel__template": "^7.4.1",
+    "@types/lodash.isequal": "^4.5.6",
     "typescript": "^4.6.2"
   }
 }

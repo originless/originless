@@ -35,9 +35,9 @@ export interface AnnotationTemplateLiteral {
   value: unknown
 }
 
-export interface AnnotationUnion {
+export interface AnnotationUnion<T extends Annotation[] = Annotation[]> {
   type: 'union'
-  types: Annotation[]
+  types: T
 }
 
 export interface AnnotationObjectProperty {

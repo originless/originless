@@ -1,9 +1,18 @@
 const template = (await import('@babel/template').then(
   (module) => (module.default as any).default
 )) as unknown as typeof import('@babel/template').default
-import { type Expression, type Statement } from '@babel/types'
 import {
-  FunctionParameter,
+  type Expression,
+  type ObjectExpression,
+  type ObjectProperty,
+  type Statement,
+} from '@babel/types'
+import {
+  AnnotationStringLiteral,
+  AnnotationVirtual,
+  type AnnotationObject,
+  type AnnotationUnion,
+  type FunctionParameter,
   type Handler,
   type PluginHost,
   type Resource,
@@ -33,10 +42,177 @@ const createImports = (resource: Resource, host: PluginHost): Statement => {
   }
 }
 
-const createParameter = (parameter: FunctionParameter): Expression => {
+const mergeUnion = (annotation: AnnotationUnion<AnnotationObject[]>): AnnotationObject => {
+  return {
+    type: 'object',
+    properties: Object.assign({}, ...annotation.types.map((annotation) => annotation.properties)),
+  }
+}
+
+const createEventMemberExpressionForAnnotationVirtual = (
+  annotation: AnnotationVirtual
+): Expression => {
+  switch (annotation.name) {
+    case 'SearchParam': {
+      return {
+        type: 'MemberExpression',
+        object: {
+          type: 'MemberExpression',
+          object: {
+            type: 'Identifier',
+            name: 'event',
+          },
+          computed: false,
+          property: {
+            type: 'Identifier',
+            name: 'queryStringParameters',
+          },
+        },
+        computed: false,
+        property: {
+          type: 'Identifier',
+          name: (annotation.generics[0] as AnnotationStringLiteral).value,
+        },
+      }
+    }
+
+    case 'Cookie': {
+      return {
+        type: 'OptionalMemberExpression',
+        object: {
+          type: 'OptionalCallExpression',
+          optional: false,
+          callee: {
+            type: 'OptionalMemberExpression',
+            object: {
+              type: 'CallExpression',
+              callee: {
+                type: 'MemberExpression',
+                object: {
+                  type: 'MemberExpression',
+                  object: {
+                    type: 'Identifier',
+                    name: 'event',
+                  },
+                  computed: false,
+                  property: {
+                    type: 'Identifier',
+                    name: 'cookies',
+                  },
+                },
+                computed: false,
+                property: {
+                  type: 'Identifier',
+                  name: 'find',
+                },
+              },
+              arguments: [
+                {
+                  type: 'ArrowFunctionExpression',
+                  expression: false,
+                  async: false,
+                  params: [
+                    {
+                      type: 'Identifier',
+                      name: 'cookie',
+                    },
+                  ],
+                  body: {
+                    type: 'CallExpression',
+                    callee: {
+                      type: 'MemberExpression',
+                      object: {
+                        type: 'Identifier',
+                        name: 'cookie',
+                      },
+                      computed: false,
+                      property: {
+                        type: 'Identifier',
+                        name: 'startsWith',
+                      },
+                    },
+                    arguments: [
+                      {
+                        type: 'StringLiteral',
+                        value: (annotation.generics[0] as AnnotationStringLiteral).value + '=',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            computed: false,
+            optional: true,
+            property: {
+              type: 'Identifier',
+              name: 'split',
+            },
+          },
+          arguments: [
+            {
+              type: 'StringLiteral',
+              value: '=',
+            },
+          ],
+        },
+        computed: true,
+        optional: false,
+        property: {
+          type: 'NumericLiteral',
+          value: 1,
+        },
+      }
+    }
+
+    default: {
+      throw new Error(`Unsupported annotation name: "${annotation.name}"`, { cause: annotation })
+    }
+  }
+}
+
+export const createArgumentForAnnotationObject = (
+  annotation: AnnotationObject
+): ObjectExpression => {
+  const properties: ObjectProperty[] = []
+
+  for (const property of Object.values(annotation.properties)) {
+    properties.push({
+      type: 'ObjectProperty',
+      key: {
+        type: 'Identifier',
+        name: property.name,
+      },
+      computed: false,
+      shorthand: false,
+      value: createEventMemberExpressionForAnnotationVirtual(
+        property.annotation as AnnotationVirtual
+      ),
+    })
+  }
+
   return {
     type: 'ObjectExpression',
-    properties: [],
+    properties,
+  }
+}
+
+const createParameter = (parameter: FunctionParameter): Expression => {
+  switch (parameter.annotation?.type) {
+    case 'union': {
+      return createArgumentForAnnotationObject(
+        mergeUnion(parameter.annotation as AnnotationUnion<AnnotationObject[]>)
+      )
+    }
+
+    case 'object': {
+      return createArgumentForAnnotationObject(parameter.annotation)
+    }
+
+    default: {
+      throw new Error(`Unsupported annotation type: "${parameter.annotation?.type}"`, {
+        cause: parameter,
+      })
+    }
   }
 }
 
