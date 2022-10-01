@@ -1,0 +1,32 @@
+{
+  "name": "@originless/utils",
+  "version": "1.0.0-alpha.0",
+  "description": "originless",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/originless-utils",
+    "type": "git",
+    "url": "https://github.com/aidant/originless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aidant/originless/issues"
+  },
+  "homepage": "https://github.com/aidant/originless/tree/main/packages/originless-utils#readme",
+  "keywords": [],
+  "main": "./lib/utils.js",
+  "exports": "./lib/utils.js",
+  "scripts": {
+    "build": "tsc --build",
+    "pretest": "npm run build",
+    "test": "node --test"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./lib/utils.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@originless/types": "*",
+    "typescript": "^4.6.2"
+  }
+}

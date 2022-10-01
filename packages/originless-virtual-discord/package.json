@@ -1,0 +1,27 @@
+{
+  "name": "@originless/virtual-discord",
+  "version": "1.0.0-alpha.0",
+  "description": "originless",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/originless-virtual-discord",
+    "type": "git",
+    "url": "https://github.com/aidant/originless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aidant/originless/issues"
+  },
+  "homepage": "https://github.com/aidant/originless/tree/main/packages/originless-virtual-discord#readme",
+  "keywords": [],
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./src/virtual-discord.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}

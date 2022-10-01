@@ -1,0 +1,43 @@
+{
+  "name": "originless",
+  "version": "1.0.0-alpha.0",
+  "description": "originless",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/originless",
+    "type": "git",
+    "url": "https://github.com/aidant/originless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aidant/originless/issues"
+  },
+  "homepage": "https://github.com/aidant/originless/tree/main/packages/originless#readme",
+  "keywords": [],
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "pretest": "npm run build",
+    "test": "node --loader=esmock --test"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "@originless/compiler": "*",
+    "fast-glob": "^3.2.11",
+    "lilconfig": "^2.0.6",
+    "lodash.mergewith": "^4.6.2",
+    "lodash.uniq": "^4.5.0",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@originless/types": "*",
+    "@types/lodash.mergewith": "^4.6.7",
+    "@types/lodash.uniq": "^4.5.7",
+    "@types/node": "^18.7.14",
+    "esmock": "^1.9.8",
+    "typescript": "^4.6.2"
+  }
+}
