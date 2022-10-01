@@ -10,8 +10,8 @@ export const handleCallback = async (
     state: event.queryStringParameters.state,
     code: event.queryStringParameters.code,
     error: event.queryStringParameters.state,
-    error_description: event.queryStringParameters.error_description,
-    error_uri: event.queryStringParameters.error_uri,
+    errorDescription: event.queryStringParameters.error_description,
+    errorURI: event.queryStringParameters.error_uri,
   }
   const arg1 = {
     accessToken: event.cookies

@@ -8,8 +8,8 @@ type HandleCallbackParams =
   | {
       state: SearchParam<'state'>
       error: SearchParam<'state'>
-      error_description: SearchParam<'error_description'>
-      error_uri: SearchParam<'error_uri'>
+      errorDescription: SearchParam<'error_description'>
+      errorURI: SearchParam<'error_uri'>
     }
 
 type HandleCallbackCookies = {
